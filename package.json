@@ -52,9 +52,9 @@
     "debug": "4.1.1",
     "inherits": "~2.0.4",
     "lodash": "^4.17.15",
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.3",
     "pg-connection-string": "2.1.0",
     "tarn": "^2.0.0",
-    "uuid": "^3.4.0"
+    "uuid": "^7.0.1"
   }
 }
