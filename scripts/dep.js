@@ -67,7 +67,7 @@ glob('lib/**/*.js', { cwd }, (err, files) => {
 
   fs.writeFileSync(
     path.join(cwd, 'package.json'),
-    JSON.stringify(pkg, null, '  '),
+    JSON.stringify(pkg, null, '  ') + '\n',
     'utf-8'
   );
   console.log('Resolve dependencies done.');
