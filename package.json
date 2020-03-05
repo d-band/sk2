@@ -7,7 +7,9 @@
     "build": "node scripts/copy.js && node scripts/dep.js",
     "test": "nyc mocha --exit -R spec",
     "report": "nyc report --reporter=html",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "db:start": "docker-compose -f docker-compose.yml up --build -d mysql mariadb postgres mssql; docker-compose -f docker-compose.yml up waitmssql waitmysql waitpostgres waitmariadb",
+    "db:stop": "docker-compose -f docker-compose.yml down"
   },
   "repository": {
     "type": "git",
@@ -38,10 +40,15 @@
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
     "knex": "^0.20.10",
+    "mariadb": "^2.2.0",
     "mocha": "^7.1.0",
     "mysql2": "^2.1.0",
     "nyc": "^15.0.0",
-    "sequelize": "^5.21.5"
+    "pg": "^7.18.2",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.5",
+    "sqlite3": "^4.1.1",
+    "tedious": "^8.0.1"
   },
   "engines": {
     "node": ">=8.10.0"

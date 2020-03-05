@@ -25,7 +25,6 @@ module.exports = function withSequelize(sequelize, config = {}) {
       case 'del':
         return sequelize.QueryTypes.DELETE;
       case 'update':
-      case 'counter':
         return sequelize.QueryTypes.UPDATE;
       default:
         return sequelize.QueryTypes.RAW;
@@ -52,48 +51,34 @@ module.exports = function withSequelize(sequelize, config = {}) {
       // run query
       const data = await sequelize.query(obj.sql, options);
       // format data
-      let rows = data;
-      let meta = data;
+      let resp = data;
       if (options.type === sequelize.QueryTypes.RAW) {
-        rows = data[0];
-        meta = data[1];
+        resp = dialect === 'postgres' ? data[1] : data[0];
       }
       // run output
       if (obj.output) {
-        return obj.output.call(this, rows, meta);
+        return obj.output.call(this, resp);
       }
       // format response
       switch (method) {
         case 'select':
         case 'pluck':
         case 'first': {
+          const rows = options.type === sequelize.QueryTypes.RAW
+            ? data[0]
+            : data;
           if (method === 'pluck') {
             return map(rows, obj.pluck);
           }
           return method === 'first' ? rows[0] : rows;
         }
         default:
-          return data;
+          return resp;
       }
     }
   }
 
-  class Client extends Dialect {
-    constructor(cfg) {
-      super(cfg);
-      this.connectionSettings = config.connection || {};
-    }
-    runner(builder) {
-      return new SequelizeRunner(this, builder);
-    }
-    database() {
-      return sequelize.getDatabaseName();
-    }
-  }
-
-  const knex = Knex({ client: Client });
-
-  knex.transaction = async (container) => {
+  async function transaction(container) {
     const tx = await sequelize.transaction();
     const instance = Knex({ client: Client });
     instance.queryBuilder = instance.context.queryBuilder = function() {
@@ -113,6 +98,27 @@ module.exports = function withSequelize(sequelize, config = {}) {
     }
     return instance;
   };
+
+  class Client extends Dialect {
+    constructor(cfg) {
+      cfg.useNullAsDefault = config.useNullAsDefault;
+      super(cfg);
+      this.connectionSettings = config.connection || {};
+    }
+    transaction(container) {
+      return transaction(container);
+    }
+    runner(builder) {
+      return new SequelizeRunner(this, builder);
+    }
+    database() {
+      return sequelize.getDatabaseName();
+    }
+  }
+
+  const knex = Knex({ client: Client });
+
+  knex.transaction = transaction;
 
   return knex;
 };

@@ -6,10 +6,13 @@ node_js:
   - 12
 
 services:
-  - mysql
+  - docker
 
 before_script:
-  - mysql -e "create database knex_test;"
+  - npm run db:start
+
+script:
+  - npm test
 
 after_success:
   - npm run coveralls
