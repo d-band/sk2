@@ -53,7 +53,11 @@ glob('lib/**/*.js', { cwd }, (err, files) => {
     });
   });
 
-  const deps = require('knex/package.json').dependencies;
+  const deps = Object.assign(require('knex/package.json').dependencies, {
+    mkdirp: '^1.0.3',
+    uuid: '^7.0.1'
+  });
+
   const dependencies = {};
 
   Object.keys(deps).forEach(k => {

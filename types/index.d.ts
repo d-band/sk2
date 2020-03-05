@@ -1997,4 +1997,15 @@ declare namespace Knex {
   export class KnexTimeoutError extends Error {}
 }
 
-export = Knex;
+import sequelize = require('sequelize');
+
+declare function sk2<TRecord = any, TResult = unknown[]>(
+  sequelize: sequelize.Sequelize,
+  config: Knex.Config
+): Knex<TRecord, TResult>;
+
+declare namespace sk2 {
+  export { Knex };
+}
+
+export = sk2;

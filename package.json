@@ -1,8 +1,9 @@
 {
   "name": "sk2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "knex with sequelize query",
   "main": "index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "node scripts/copy.js && node scripts/dep.js",
     "test": "nyc mocha --exit -R spec",
