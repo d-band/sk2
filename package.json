@@ -34,13 +34,13 @@
   },
   "homepage": "https://github.com/d-band/sk2#readme",
   "devDependencies": {
-    "@babel/parser": "^7.8.6",
+    "@babel/parser": "^7.8.7",
     "@babel/traverse": "^7.8.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.9",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
-    "knex": "^0.20.10",
+    "knex": "^0.20.11",
     "mariadb": "^2.2.0",
     "mocha": "^7.1.0",
     "mysql2": "^2.1.0",
@@ -55,7 +55,6 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
-    "bluebird": "^3.7.2",
     "colorette": "1.1.0",
     "debug": "4.1.1",
     "inherits": "~2.0.4",
