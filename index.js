@@ -23,9 +23,9 @@ module.exports = function withSequelize(sequelize, config = {}) {
       case 'insert':
         return sequelize.QueryTypes.INSERT;
       case 'del':
-        return sequelize.QueryTypes.DELETE;
+        return sequelize.QueryTypes.BULKDELETE;
       case 'update':
-        return sequelize.QueryTypes.UPDATE;
+        return sequelize.QueryTypes.BULKUPDATE;
       default:
         return sequelize.QueryTypes.RAW;
     }
@@ -50,9 +50,10 @@ module.exports = function withSequelize(sequelize, config = {}) {
       }
       // run query
       const data = await sequelize.query(obj.sql, options);
+      const isRaw = options.type === sequelize.QueryTypes.RAW;
       // format data
       let resp = data;
-      if (options.type === sequelize.QueryTypes.RAW) {
+      if (isRaw) {
         resp = dialect === 'postgres' ? data[1] : data[0];
       }
       // run output
@@ -64,9 +65,7 @@ module.exports = function withSequelize(sequelize, config = {}) {
         case 'select':
         case 'pluck':
         case 'first': {
-          const rows = options.type === sequelize.QueryTypes.RAW
-            ? data[0]
-            : data;
+          const rows = isRaw ? data[0] : data;
           if (method === 'pluck') {
             return map(rows, obj.pluck);
           }

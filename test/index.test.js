@@ -50,6 +50,8 @@ function runTest(sequelize, config) {
       const id = ['postgres', 'mssql'].indexOf(dialect) >= 0
         ? data[0][0].id
         : data[0];
+      expect(data[1]).to.equal(1);
+
       await knex('accounts').insert({
         account_name: 'knex', user_id: id
       });
@@ -148,11 +150,13 @@ function runTest(sequelize, config) {
     });
 
     it(`${dialect}: update`, async () => {
-      await knex('users').where({
-        id: 1
-      }).update({
+      const num = await knex('users').where('id', '>=', 1).update({
         user_name: 'Tim2'
       });
+      if (dialect !== 'mssql') {
+        expect(num).to.equal(3);
+      }
+
       const user = await knex('users').select().first().orderBy('id');
 
       expect(user).to.have.property('id', 1);
@@ -174,7 +178,11 @@ function runTest(sequelize, config) {
     });
 
     it(`${dialect}: delete`, async () => {
-      await knex('users').where('id', '>', '1').del();
+      const num = await knex('users').where('id', '>', '1').del();
+      if (dialect !== 'mssql') {
+        expect(num).to.equal(2);
+      }
+
       const ids = await knex('users').select().pluck('id').orderBy('id');
 
       expect(ids).to.include(1);
