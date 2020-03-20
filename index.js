@@ -80,21 +80,24 @@ module.exports = function withSequelize(sequelize, config = {}) {
   async function transaction(container) {
     const tx = await sequelize.transaction();
     const instance = Knex({ client: Client });
-    instance.queryBuilder = instance.context.queryBuilder = function() {
+    instance.context.queryBuilder = function() {
       return this.client.queryBuilder().options({ transaction: tx });
     };
     instance.commit = () => tx.commit();
     instance.rollback = () => tx.rollback();
-    if (container) {
+
+    const result = container(instance);
+    if (result && typeof result.then === 'function') {
       try {
-        const resp = await container(instance);
+        const resp = await result;
         await tx.commit();
         return resp;
-      } catch(err) {
+      } catch (err) {
         await tx.rollback();
         throw err;
       }
     }
+
     return instance;
   };
 
@@ -116,8 +119,6 @@ module.exports = function withSequelize(sequelize, config = {}) {
   }
 
   const knex = Knex({ client: Client });
-
-  knex.transaction = transaction;
 
   return knex;
 };

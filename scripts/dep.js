@@ -55,7 +55,8 @@ glob('lib/**/*.js', { cwd }, (err, files) => {
 
   const deps = Object.assign(require('knex/package.json').dependencies, {
     mkdirp: '^1.0.3',
-    uuid: '^7.0.1'
+    uuid: '^7.0.2',
+    'pg-connection-string': '^2.2.0'
   });
 
   const dependencies = {};
