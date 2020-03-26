@@ -1,6 +1,6 @@
 {
   "name": "sk2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "knex with sequelize query",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -34,14 +34,14 @@
   },
   "homepage": "https://github.com/d-band/sk2#readme",
   "devDependencies": {
-    "@babel/parser": "^7.8.8",
-    "@babel/traverse": "^7.8.6",
+    "@babel/parser": "^7.9.4",
+    "@babel/traverse": "^7.9.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.11",
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",
-    "knex": "^0.20.12",
-    "mariadb": "^2.2.0",
+    "knex": "^0.20.13",
+    "mariadb": "^2.3.1",
     "mocha": "^7.1.1",
     "mysql2": "^2.1.0",
     "nyc": "^15.0.0",
@@ -49,7 +49,7 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.5",
     "sqlite3": "^4.1.1",
-    "tedious": "^8.0.1"
+    "tedious": "^8.2.0"
   },
   "engines": {
     "node": ">=8.10.0"
