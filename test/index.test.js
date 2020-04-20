@@ -152,10 +152,8 @@ function runTest(sequelize, config) {
     it(`${dialect}: update`, async () => {
       const num = await knex('users').where('id', '>=', 1).update({
         user_name: 'Tim2'
-      });
-      if (dialect !== 'mssql') {
-        expect(num).to.equal(3);
-      }
+      }, ['*']);
+      expect(num).to.equal(3);
 
       const user = await knex('users').select().first().orderBy('id');
 
@@ -179,9 +177,7 @@ function runTest(sequelize, config) {
 
     it(`${dialect}: delete`, async () => {
       const num = await knex('users').where('id', '>', '1').del();
-      if (dialect !== 'mssql') {
-        expect(num).to.equal(2);
-      }
+      expect(num).to.equal(2);
 
       const ids = await knex('users').select().pluck('id').orderBy('id');
 
