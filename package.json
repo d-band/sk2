@@ -55,7 +55,7 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
-    "colorette": "1.1.0",
+    "colorette": "1.2.0",
     "debug": "4.1.1",
     "inherits": "~2.0.4",
     "lodash": "^4.17.15",
