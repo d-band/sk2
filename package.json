@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/d-band/sk2#readme",
   "devDependencies": {
-    "@babel/parser": "^7.9.4",
+    "@babel/parser": "^7.10.2",
     "@babel/traverse": "^7.9.5",
     "chai": "^4.2.0",
     "coveralls": "^3.0.11",
